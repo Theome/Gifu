@@ -123,6 +123,8 @@ public class Animator {
     if frameStore?.isAnimatable ?? false {
       displayLink.isPaused = false
     }
+    // Don't wait for the displayLink to display the current frame
+    delegate.updateImageIfNeeded()
   }
 
   /// Stop animating.

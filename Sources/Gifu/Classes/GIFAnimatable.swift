@@ -78,6 +78,7 @@ extension GIFAnimatable {
                       loopCount: loopCount,
                       preparationBlock: preparationBlock,
                       animationBlock: animationBlock)
+    updateImageIfNeeded()
   }
 
   /// Prepare for animation and start animating immediately.

@@ -98,10 +98,13 @@ class FrameStore {
   /// Loads the frames from an image source, resizes them, then caches them in `animatedFrames`.
   func prepareFrames(_ completionHandler: (() -> Void)? = nil) {
     frameCount = Int(CGImageSourceGetCount(imageSource))
-    preloadFrameQueue.async {
-      self.setupAnimatedFrames()
-      completionHandler?()
-    }
+    // NB: The call to setupAnimatedFrames was originally added to the preloadFrameQueue.
+    // However, this prevented the delegate to display the current frame immediately,
+    // so the setup happens on the main thread now. This is a compromise as it can cause
+    // a small frame drop, but prevents flickering if the delegate is a cell in a
+    // collection view being reloaded.
+    self.setupAnimatedFrames()
+    completionHandler?()
   }
 
   /// Returns the frame at a particular index.
